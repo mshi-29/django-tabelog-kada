@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>お気に入りレストラン一覧</h1>
+<ul>
+  {% for favorite in favorites %}
+    <li><a href="{% url 'restaurant_detail' favorite.restaurant.id %}">{{ favorite.restaurant.name }}</a></li>
+  {% endfor %}
+</ul>
+{% endblock %}
