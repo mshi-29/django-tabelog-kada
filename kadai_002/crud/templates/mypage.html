@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% load static %}
+
+ 
+ {% block title %}ログイン{% endblock %}
+{% block content %}
+ 
+ <h1 style="text-align:center">マイページ</h1>
+ <style>
+.flexbox {
+  display: flex;
+  align-items:center;
+  justify-content: center;
+  flex-wrap: wrap;
+  width: 700px;
+  height: auto;
+  margin: auto;
+}
+
+.flex-item {
+  text-align: center;
+  line-height: 200px;
+  border: 1px solid #000;
+  box-shadow: 3px 3px 5px #535961;
+  width: 200px;
+  height: 200px;
+  border-radius: 10px;
+  margin: 5px;
+  font-size: 24px;
+  cursor: pointer;
+  background-color:#f0f8ff;
+  border: 1px #d3d3d3 solid;
+}
+</style>    
+<div class="flexbox">
+  <a href="{% url 'edit_user' %}"><div class="flex-item">会員情報編集</div></a>
+  <a href="{% url 'payment_form' %}"><div class="flex-item">有料会員登録</div></a>
+  {% if has_subscription %}
+    <a href="{% url 'favorites_list' %}"><div class="flex-item">お気に入り一覧</div></a>
+    <a href="{% url 'reservations_list' %}"><div class="flex-item">予約一覧</div></a>
+    <button onclick="confirmCancellation()" class="flex-item">有料会員解約</button>
+    <a href="{% url 'billing-portal' %}"><div class="flex-item">決済情報</div></a>
+  {% endif %}
+</div>
+<br>
+<br> 
+<style>
+.hoge_button{
+  text-align: center;
+  font-size: 24px;                     
+  padding: 15px 50px;
+  border-radius: 10px;
+  text-decoration: none;
+  color: #FFF;
+  background-image: linear-gradient(45deg, #16d3ba 0%, #23b4e0e8 100%);
+  transition: .4s;
+  border:none
+}   
+</style>
+
+<form action="{% url 'logout' %}" method="post" style = "text-align: center;">
+  {% csrf_token %}
+  <button type="submit" class="hoge_button" >ログアウト</button>
+</form>
+<br> 
+<br> 
+<div style="text-align: center">
+    <a href="{% url 'top' %}">トップへ戻る</a>
+</div>
+<br>  
+
+<script>
+  function confirmCancellation() {
+    if (confirm('本当に解約しますか？')) {
+        // ユーザーが「OK」をクリックした場合、解約処理のURLにリダイレクト
+        window.location.href = "{% url 'cancel_subscription' %}";
+    }
+  }
+  </script>
+  
+{% endblock %}
